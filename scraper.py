@@ -2,7 +2,7 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 
-from parser import parse_prices
+from listing_parser import parse_prices
 
 url = "https://www.homely.com.au/for-sale/adelaide-sa-5000/real-estate"
 response = requests.get(url)

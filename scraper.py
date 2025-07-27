@@ -55,7 +55,7 @@ class Scraper:
                 "days_listed": days_listed,
             }
 
-            listings.append(listing_dict)
+            listings.append(Listing(**listing_dict))
 
         return listings
 
@@ -67,7 +67,10 @@ class Scraper:
         return listings
 
     def export_to_csv(self, path, listings: list[Listing]):
+
+        listings_dict = [l.to_dict() for l in listings]
+
         with open(path, mode="w", newline='', encoding="utf-8") as file:
-            writer = csv.DictWriter(file, fieldnames=listings[0].keys())
+            writer = csv.DictWriter(file, fieldnames=listings_dict[0].keys())
             writer.writeheader()
-            writer.writerows(listings)
+            writer.writerows(listings_dict)

@@ -2,6 +2,8 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 
+from parser import parse_prices
+
 url = "https://www.homely.com.au/for-sale/adelaide-sa-5000/real-estate"
 response = requests.get(url)
 html_content = response.text
@@ -19,7 +21,9 @@ for listing in listings:
 
     # Extract price (it's inside an h3 tag)
     price_tag = listing.select_one("h3")
-    price = price_tag.get_text(strip=True) if price_tag else "N/A"
+    price_str = price_tag.get_text(strip=True) if price_tag else "N/A"
+    
+    price_range = parse_prices(price_str)
 
     # Extract bed, bath, car
     icons = listing.select("ul li")
@@ -34,7 +38,8 @@ for listing in listings:
 
     listing_dict = {
         "Address": address,
-        "Price": price,
+        "Min Price": price_range.min_price,
+        "Max Price": price_range.max_price,
         "Beds": beds,
         "Baths": baths,
         "Cars": cars,

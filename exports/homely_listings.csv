@@ -1,4 +1,4 @@
-Address,Min Price,Max Price,Beds,Baths,Cars,Type,Days Listed
+address,min_price,max_price,beds,baths,cars,listing_type,days_listed
 "60 South Terrace, Adelaide SA 5000",650000,670000,2,1,1,Apartment for Sale,N/A
 "703b/181 Waymouth Street, Adelaide SA 5000",,,1,1,0,Apartment for Sale,NEW on Homely
 "49/21 Pulteney Street, Adelaide SA 5000",,,1,1,0,Apartment for Sale,NEW on Homely
@@ -17,10 +17,10 @@ Address,Min Price,Max Price,Beds,Baths,Cars,Type,Days Listed
 "46 Dukes Lane, Adelaide SA 5000",,,2,1,1,House for Sale,12 days on Homely
 "504/17 Penny Place, Adelaide SA 5000",,,2,1,1,Apartment for Sale,12 days on Homely
 "24/261 Pirie Street, Adelaide SA 5000",1300000,1400000,3,2,3,Apartment for Sale,13 days on Homely
-"203/20 Mocatta Place, Adelaide SA 5000",780000,800000,2,1,1,Apartment for Sale,13 days on Homely
 "146-146A Hutt Street, Adelaide SA 5000",1400000,1540000,2,1,2,House for Sale,16 days on Homely
 "16B/16-20 Hurtle Square, Adelaide SA 5000",,,3,2,2,Apartment for Sale,17 days on Homely
 "39D/17 Eden Street, Adelaide SA 5000",740000,785000,3,2,1,Apartment for Sale,18 days on Homely
 "42A Gilles Street, Adelaide SA 5000",,,2,2,2,Townhouse for Sale,18 days on Homely
 "31/177 Angas Street, Adelaide SA 5000",,,2,1,1,Unit for Sale,18 days on Homely
 "905/181 Waymouth Street, Adelaide SA 5000",,,2,2,0,Apartment for Sale,19 days on Homely
+"802/181 Waymouth Street, Adelaide SA 5000",,,2,2,1,Apartment for Sale,19 days on Homely

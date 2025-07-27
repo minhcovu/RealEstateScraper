@@ -1,4 +1,4 @@
-from RealEstateScraper.entities import PriceRange
+from entities import PriceRange
 import re
 
 def parse_prices(str_prices: str) -> PriceRange:

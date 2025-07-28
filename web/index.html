@@ -1,0 +1,44 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real Estate Scraper</title>
+</head>
+<body>
+    <h1>Welcome to my Real Estate Scraper</h1>
+    <p>You can scrape real estate listings from homely and have it 
+        display it here</p>
+
+    <label for="url-input">Enter URL to scrape:</label><br>
+    <input type="text" id="url-input" size="80" placeholder="https://www.homely.com.au/for-sale/adelaide-sa-5000/real-estate" />
+    <br><br>
+
+    <button onclick="triggerScrape()">Scrape Now</button>
+    <h1>Result</h1>
+    <p id="result"></p>
+
+</body>
+</html>
+
+<script>
+    async function triggerScrape() {
+        const input = document.getElementById('url-input');
+        let url = input.value.trim();
+
+        if (!url) {
+            url = input.placeholder;
+        }
+
+        const response = await fetch('/scrape', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url: url })
+        });
+
+        const result = await response.json();
+        document.getElementById('result').innerText = result.message;
+    }
+</script>

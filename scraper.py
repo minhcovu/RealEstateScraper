@@ -6,8 +6,7 @@ from listing_parser import parse_prices
 from entities import Listing
 
 class Scraper:
-    def __init__(self, url):
-        self.url = url
+    def __init__(self):
         self.session = requests.Session()
 
     def fetch_page(self, url):
@@ -60,8 +59,8 @@ class Scraper:
         return listings
 
 
-    def scrape(self) -> list[Listing]:
-        html = self.fetch_page(self.url)
+    def scrape(self, url) -> list[Listing]:
+        html = self.fetch_page(url)
         listings = self.parse_listings(html)
 
         return listings

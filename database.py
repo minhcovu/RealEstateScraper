@@ -25,3 +25,19 @@ class Database:
             return session.query(Listing).all()
         finally:
             session.close()
+
+    def get_listings_paginated(self, skip=0, limit=50):
+        session = self.session()
+        try:
+            return session.query(Listing).offset(skip).limit(limit).all()
+        finally:
+            session.close()
+
+    def search_by_address(self, address_substring: str):
+        session = self.session()
+        try:
+            return session.query(Listing)\
+                .filter(Listing.address.ilike(f"%{address_substring}%"))\
+                .all()
+        finally:
+            session.close()

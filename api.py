@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
+from fastapi import Query
 
 from scraper import Scraper
 from database import Database
@@ -29,3 +30,13 @@ def scrape(request: ScrapeRequest):
 @app.get("/")
 def read_root():
     return FileResponse("web/index.html")
+
+@app.get("/listings")
+def get_listings(skip: int = 0, limit: int = 50):
+    listings = database.get_listings_paginated(skip=skip, limit=limit)
+    return JSONResponse(content=[l.to_dict() for l in listings])
+
+@app.get("/listings/search")
+def search_listings(address: str = Query(...)):
+    results = database.search_by_address(address)
+    return [l.to_dict() for l in results]

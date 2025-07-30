@@ -17,7 +17,13 @@
     <button onclick="triggerScrape()">Scrape Now</button>
     <h1>Result</h1>
     <p id="result"></p>
+    <br><br>
+    <button onclick="loadListings()">Show Listings</button>
+    <br><br>
+    <button onclick="previousPage()">Previous Page</button>
+    <button onclick="nextPage()">Next Page</button>
 
+    <div id="listings-container"></div>
 </body>
 </html>
 
@@ -41,4 +47,47 @@
         const result = await response.json();
         document.getElementById('result').innerText = result.message;
     }
+
+    let skip = 0;
+    const limit = 10;
+
+    async function loadListings() {
+        
+        const response = await fetch(`/listings?skip=${skip}&limit=10`);
+
+        const listings = await response.json();
+
+        const container = document.getElementById('listings-container');
+        container.innerHTML = ""; // Clear previous
+
+        if (listings.length === 0) {
+            container.innerText = "No listings found.";
+            return;
+        }
+
+        listings.forEach(listing => {
+            const card = document.createElement('div');
+            card.style.border = "1px solid #ccc";
+            card.style.padding = "10px";
+            card.style.marginBottom = "10px";
+            card.innerHTML = `
+                <strong>${listing.address}</strong><br>
+                Price: ${listing.min_price} - ${listing.max_price}<br>
+                Beds: ${listing.beds} | Baths: ${listing.baths} | Cars: ${listing.cars}<br>
+                Type: ${listing.listing_type} | Listed: ${listing.days_listed}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function nextPage() {
+        skip += limit;
+        loadListings();
+    }
+
+    function previousPage() {
+        skip -= limit;
+        loadListings();
+    }
+
 </script>

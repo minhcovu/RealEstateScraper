@@ -42,4 +42,5 @@ class Listing(Base):
             "cars": self.cars,
             "listing_type": self.listing_type,
             "days_listed": self.days_listed,
+            "id": self.id,
         }

@@ -18,11 +18,24 @@
     <h1>Result</h1>
     <p id="result"></p>
     <br><br>
+
+    <input type="text" id="search-address" size="80" placeholder="13 St Clair Parade, Greenwith SA 5125" />
+    <button onclick="searchAddress()">Search</button>
+    
+    <br><br>
+    <button onclick="compare_listings()">Compare Listings</button>
+    <br><br>
+    <input type="text" id="list-id-left" size="80" placeholder="1" />
+    <input type="text" id="list-id-right" size="80" placeholder="2" />
+    <div id="compare-listings-container"></div>
+
+    <br><br>
     <button onclick="loadListings()">Show Listings</button>
+
     <br><br>
     <button onclick="previousPage()">Previous Page</button>
     <button onclick="nextPage()">Next Page</button>
-
+    <br><br>
     <div id="listings-container"></div>
 </body>
 </html>
@@ -74,11 +87,117 @@
                 <strong>${listing.address}</strong><br>
                 Price: ${listing.min_price} - ${listing.max_price}<br>
                 Beds: ${listing.beds} | Baths: ${listing.baths} | Cars: ${listing.cars}<br>
-                Type: ${listing.listing_type} | Listed: ${listing.days_listed}
+                Type: ${listing.listing_type} | Listed: ${listing.days_listed}<br>
+                ID: ${listing.id}
             `;
             container.appendChild(card);
         });
     }
+    
+    async function searchAddress() {
+        const input = document.getElementById('search-address');
+
+        let address = input.value.trim();
+
+        const response = await fetch(`/listings/search?address=${address}`);
+
+        const listings = await response.json();
+
+        const container = document.getElementById('listings-container');
+        container.innerHTML = ""; // Clear previous
+
+        if (listings.length === 0) {
+            container.innerText = "No listings found.";
+            return;
+        }
+
+        listings.forEach(listing => {
+            const card = document.createElement('div');
+            card.style.border = "1px solid #ccc";
+            card.style.padding = "10px";
+            card.style.marginBottom = "10px";
+            card.innerHTML = `
+                <strong>${listing.address}</strong><br>
+                Price: ${listing.min_price} - ${listing.max_price}<br>
+                Beds: ${listing.beds} | Baths: ${listing.baths} | Cars: ${listing.cars}<br>
+                Type: ${listing.listing_type} | Listed: ${listing.days_listed}<br>
+                ID: ${listing.id}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    async function compare_listings() {
+        const leftInput = document.getElementById('list-id-left');
+        const rightInput = document.getElementById('list-id-right');
+
+        let idLeft = leftInput.value.trim();
+        let idRight = rightInput.value.trim();
+
+        const response = await fetch(`/listings?id=${idLeft}&id=${idRight}`);
+
+        const listings = await response.json();
+
+        const container = document.getElementById('compare-listings-container');
+        container.innerHTML = ""; // Clear previous
+
+        if (listings.length != 2) {
+            container.innerText = "Invalid property ids";
+            return;
+        }
+
+        // Create table element
+        const table = document.createElement("table");
+        table.border = "1";
+        table.cellPadding = "8";
+        table.cellSpacing = "0";
+
+        // Define feature rows
+        const features = [
+            ["Address", listing => listing.address],
+            ["Price", listing => `${listing.min_price} - ${listing.max_price}`],
+            ["Beds", listing => listing.beds],
+            ["Baths", listing => listing.baths],
+            ["Cars", listing => listing.cars],
+            ["Type", listing => listing.listing_type],
+            ["Days Listed", listing => listing.days_listed],
+        ];
+
+        // Create header row
+        const headerRow = document.createElement("tr");
+        const featureHeader = document.createElement("th");
+        featureHeader.textContent = "Feature";
+        headerRow.appendChild(featureHeader);
+
+        listings.forEach((_, index) => {
+            const th = document.createElement("th");
+            th.textContent = `Property ${index + 1}`;
+            headerRow.appendChild(th);
+        });
+
+        table.appendChild(headerRow);
+
+        // Create rows for each feature
+        features.forEach(([label, accessor]) => {
+            const row = document.createElement("tr");
+
+            const labelCell = document.createElement("td");
+            labelCell.textContent = label;
+            row.appendChild(labelCell);
+
+            listings.forEach(listing => {
+                const valueCell = document.createElement("td");
+                valueCell.textContent = accessor(listing);
+                row.appendChild(valueCell);
+            });
+
+            table.appendChild(row);
+        });
+
+        // Append the table to the container
+        container.appendChild(table);
+    }
+
 
     function nextPage() {
         skip += limit;

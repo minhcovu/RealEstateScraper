@@ -1,6 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from entities import Base, Listing  
+from typing import List
 
 class Database:
     def __init__(self, db_url = "sqlite:///real_estate.db"):
@@ -30,6 +31,13 @@ class Database:
         session = self.session()
         try:
             return session.query(Listing).offset(skip).limit(limit).all()
+        finally:
+            session.close()
+
+    def get_listing_by_ids(self, ids: List):
+        session = self.session()
+        try:
+            return session.query(Listing).filter(Listing.id.in_(ids)).all()
         finally:
             session.close()
 

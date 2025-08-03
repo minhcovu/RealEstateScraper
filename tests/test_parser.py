@@ -1,4 +1,4 @@
-from listing_parser import parse_prices
+from real_estate_scraper.listing_parser import parse_prices
 
 def test_output_format():
 

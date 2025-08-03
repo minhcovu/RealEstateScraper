@@ -2,8 +2,8 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 
-from listing_parser import parse_prices
-from entities import Listing
+from real_estate_scraper.listing_parser import parse_prices
+from real_estate_scraper.entities import Listing
 
 class Scraper:
     def __init__(self):

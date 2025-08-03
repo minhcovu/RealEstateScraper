@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from entities import Base, Listing  
+from real_estate_scraper.entities import Base, Listing  
 from typing import List
 
 class Database:

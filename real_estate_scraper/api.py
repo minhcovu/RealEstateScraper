@@ -4,8 +4,8 @@ from fastapi.responses import JSONResponse
 from fastapi import Query
 
 from typing import Optional, List
-from scraper import Scraper
-from database import Database
+from real_estate_scraper.scraper import Scraper
+from real_estate_scraper.database import Database
 from pydantic import BaseModel, HttpUrl
 
 app = FastAPI()
@@ -30,7 +30,7 @@ def scrape(request: ScrapeRequest):
 
 @app.get("/")
 def read_root():
-    return FileResponse("web/index.html")
+    return FileResponse("real_estate_scraper/web/index.html")
 
 @app.get("/listings")
 def get_listings(
